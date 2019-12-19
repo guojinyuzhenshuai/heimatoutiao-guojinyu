@@ -3,16 +3,16 @@
     <!-- 头部组建 -->
     <el-row type="flex" justify="space-between" align="middle">
       <!-- 左侧 -->
-      <el-col :span="8" style="background-color:red">
+      <el-col :span="12" style="background-color:red">
         <span class="el-icon-s-fold"></span>
         江苏传智播客教育科技股份有限公司
       </el-col>
       <!-- 右侧 -->
-      <el-col :span="4" style="background-color:yellow; float:right">
+      <el-col :span="12" style="background-color:yellow; float:right">
         <div style="float:right">
             <span>消息</span>
-            <img src="../assets/avatar.jpg" alt="">
-            <span style="margin-right:5px">用户名</span>
+            <img :src="userInfo.photo ? userInfo.photo : defaultIng" alt="">
+            <span style="margin-right:5px">{{ this.userInfo.name }}</span>
           <el-dropdown>
             <span class="el-dropdown-link">
               <i class="el-icon-arrow-down el-icon--right"></i>
@@ -33,20 +33,23 @@
 export default {
   data () {
     return {
-      userInfo: {} // 用户信息
+      userInfo: {},
+      defaultIng: require('../assets/avatar.jpg') // 用户信息
     }
   },
   created () {
-    let token = window.localStorage.getItem('Application')
+    let token = window.localStorage.getItem('user-token')
+    console.log(token)
 
     this.$axios({
       url: '/user/profile',
       // headers 参数
       headers: {
-        Application: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     }).then(res => {
-      console.log(res)
+      this.userInfo = res.data.data // 获取用户个人信息
+      console.log(res.data.data)
     })
   }
 }
