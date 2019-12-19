@@ -90,9 +90,13 @@ export default {
             data: this.loginForm
           }).then(result => {
             // console.log(result)
-            window.localStorage.setItem('user-token', result.data.data.token)
-            this.$router.push('/home')
+            window.localStorage.setItem('user-token', result.data.data.token)// 前端缓存令牌
+            this.$router.push('/home')// 登陆成功 跳转到主页
           }).catch(error => {
+            this.$message({
+              message: '您的验证码不正确',
+              type: 'warning'
+            })
             console.log(error)
           })
         } else {
