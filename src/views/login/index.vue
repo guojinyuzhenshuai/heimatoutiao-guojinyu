@@ -83,16 +83,18 @@ export default {
       // validate 是一个方法 => 方法中传入的一个函数 两个校验参数  是否校验成功/未校验成功的字段
       this.$refs.myForm.validate(isOK => {
         if (isOK) {
-          console.log('校检成功')
-          // this.$axios({
-          //   url: '/authorizations', // 请求地址
-          //   method: 'post',
-          //   data: this.loginForm
-          // }).then(result => {
-          //   console.log(result)
-          //   // window.localStorage.setItem('user-token', result.data.data.token)
-          //   // this.$router.push('/home')
-          // })
+          // console.log('校检成功')
+          this.$axios({
+            url: '/authorizations', // 请求地址
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            // console.log(result)
+            window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/home')
+          }).catch(error => {
+            console.log(error)
+          })
         } else {
           console.log('校检失败')
         }
