@@ -56,7 +56,7 @@ export default {
         check: [
           {
             validator: function (rule, value, callback) {
-              console.log(value)
+            //   console.log(value)
 
               // rule 当前的规则 没什么用
               // value 指的就是我们要校检的字段的值
@@ -81,9 +81,20 @@ export default {
     submitLogin () {
       // 校验整个表单的规则
       // validate 是一个方法 => 方法中传入的一个函数 两个校验参数  是否校验成功/未校验成功的字段
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate(isOK => {
         if (isOK) {
           console.log('校检成功')
+          // this.$axios({
+          //   url: '/authorizations', // 请求地址
+          //   method: 'post',
+          //   data: this.loginForm
+          // }).then(result => {
+          //   console.log(result)
+          //   // window.localStorage.setItem('user-token', result.data.data.token)
+          //   // this.$router.push('/home')
+          // })
+        } else {
+          console.log('校检失败')
         }
       })
     }
