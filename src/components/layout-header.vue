@@ -1,26 +1,26 @@
 <template>
   <div class="layout-header">
     <!-- 头部组建 -->
-    <el-row type="flex" justify="space-between" align="middle">
+    <el-row type="flex" justify="space-between">
       <!-- 左侧 -->
-      <el-col :span="12" style="background-color:red">
+      <el-col :span="12">
         <span class="el-icon-s-fold"></span>
         江苏传智播客教育科技股份有限公司
       </el-col>
       <!-- 右侧 -->
-      <el-col :span="12" style="background-color:yellow; float:right">
+      <el-col :span="12" style="float:right">
         <div style="float:right">
-            <span>消息</span>
-            <img :src="userInfo.photo ? userInfo.photo : defaultIng" alt="">
-            <span style="margin-right:5px">{{ this.userInfo.name }}</span>
-          <el-dropdown>
+          <span>消息</span>
+          <img :src="userInfo.photo ? userInfo.photo : defaultIng" alt />
+          <span style="margin-right:5px">{{ this.userInfo.name }}</span>
+          <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item>git地址</el-dropdown-item>
-              <el-dropdown-item>地址</el-dropdown-item>
+              <el-dropdown-item command="1">个人信息</el-dropdown-item>
+              <el-dropdown-item command="2">git地址</el-dropdown-item>
+              <el-dropdown-item command="3">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -51,19 +51,32 @@ export default {
       this.userInfo = res.data.data // 获取用户个人信息
       console.log(res.data.data)
     })
+  },
+  methods: {
+    handleCommand (command) {
+      this.$message(command)
+      if (command === '3') {
+        window.localStorage.removeItem('user-token')
+        // window.location.href = '/login'
+        this.$router.push('/login')
+      } else if (command === '2') {
+        window.location.href = 'https://github.com/guojinyuzhenshuai/heimatoutiao-guojinyu'
+      }
+    }
   }
 }
 </script>
 
 <style lang='less' scoped>
-.layout-header{
-    height: 60px;
-    line-height: 50px;
-    img{
-        height: 30px;
-        border-radius: 50%;
-        line-height: 30px;
-        margin-right: 10px;
-    }
+.layout-header {
+  height: 60px;
+  line-height: 60px;
+  img {
+    height: 30px;
+    border-radius: 50%;
+    line-height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
 }
 </style>
