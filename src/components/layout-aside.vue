@@ -5,7 +5,7 @@
     <div class="title">
       <img src="../assets/logo_admin.png" alt />
     </div>
-    <el-menu style="width:231px ; height:100vh" background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b">
+    <el-menu style="width:301px ; height:100vh" background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b">
       <el-menu-item index="2">
         <span slot="title"  style=" padding-left:20px">首页</span>
       </el-menu-item>
@@ -39,7 +39,7 @@
 export default {}
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .layout-aside {
   width: 230px;
   .title {
