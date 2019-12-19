@@ -10,7 +10,7 @@
         <layout-header style="height:50px"></layout-header>
       </el-header>
       <el-main style="background-color:yellow">
-        主要内容
+        <!-- 主要内容 -->
         <router-view></router-view>
       </el-main>
     </el-container>
