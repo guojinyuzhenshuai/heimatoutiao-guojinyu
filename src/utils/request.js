@@ -7,7 +7,7 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑�
 // 请求拦截
 axios.interceptors.request.use(function (config) {
   // 这个函数有两个参数
-  console.log(axios.interceptors)
+  // console.log(axios.interceptors)
   // 执行请求ok
   // config 是axios 的所有配置
   let token = window.localStorage.getItem('user-token') // 获取token
