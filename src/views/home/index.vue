@@ -21,12 +21,10 @@
 <script>
 import layoutAside from '../../components/layout-aside'
 import layoutHeader from '../../components/layout-header'
-import BreadCrumb from '../../common/bread-crumb'
 export default {
   components: {
     'layout-aside': layoutAside,
-    'layout-header': layoutHeader,
-    'bread-crumb': BreadCrumb
+    'layout-header': layoutHeader
   }
 }
 </script>

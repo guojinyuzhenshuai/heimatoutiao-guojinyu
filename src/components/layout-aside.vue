@@ -13,7 +13,7 @@
       router
     >
       <el-menu-item index="/home">
-        <span slot="title" style=" padding-left:20px">首页</span>
+        <span slot="title" style=" padding-left:20px" to='/home'>首页</span>
       </el-menu-item>
       <el-submenu index="1">
         <template slot="title">
