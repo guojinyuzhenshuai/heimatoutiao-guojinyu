@@ -11,6 +11,7 @@
       </el-header>
       <el-main style="background-color:yellow">
         <!-- 主要内容 -->
+        <bread-crumb></bread-crumb>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -20,10 +21,12 @@
 <script>
 import layoutAside from '../../components/layout-aside'
 import layoutHeader from '../../components/layout-header'
+import BreadCrumb from '../../common/bread-crumb'
 export default {
   components: {
     'layout-aside': layoutAside,
-    'layout-header': layoutHeader
+    'layout-header': layoutHeader,
+    'bread-crumb': BreadCrumb
   }
 }
 </script>
