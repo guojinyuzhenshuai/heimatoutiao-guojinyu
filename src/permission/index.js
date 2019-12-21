@@ -2,12 +2,16 @@
 import router from '../router'
 
 // 导航守卫
-// 全局前置守卫
+// 全局前置守卫 => 在每一个路由发生改变之前 会触发这个事件
 router.beforeEach((to, from, next) => {
   // 判断拦截地址
+  // console.log(from)
+
   if (to.path.startsWith('/home')) {
     // 进行权限判断 如果有token 则放行 如果没有token 则回到登录页
     let token = window.localStorage.getItem('user-token')
+    // console.log(token)
+
     if (token) {
       next()
     } else {
