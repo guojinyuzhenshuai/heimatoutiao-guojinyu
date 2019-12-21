@@ -5,7 +5,7 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑�
 // 请求拦截
 axios.interceptors.request.use(function (config) {
   // 这个函数有两个参数
-  console.log(config)
+  console.log(axios.interceptors)
   // 执行请求ok
   // config 是axios 的所有配置
   let token = window.localStorage.getItem('user-token') // 获取token
@@ -14,5 +14,11 @@ axios.interceptors.request.use(function (config) {
   return config// 如果返回config 它就会作为新的请求选项去进行请求
 }, function () {
   // 执行请求失败
+})
+// 响应拦截
+axios.interceptors.response.use(function (response) {
+  return response.data ? response.data : {}// 解决当data不存在时 then中读取数据报错问题
+}, function () {
+  // 失败时执行 状态码 不是200 或者201/204
 })
 export default axios
