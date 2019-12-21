@@ -49,7 +49,7 @@ export default {
       }
     }).then(res => {
       this.userInfo = res.data.data // 获取用户个人信息
-      console.log(res.data.data)
+      // console.log(res.data.data)
     })
   },
   methods: {
@@ -57,10 +57,11 @@ export default {
       this.$message(command)
       if (command === '3') {
         window.localStorage.removeItem('user-token')
-        // window.location.href = '/login'
+        window.location.href = '/login'
         this.$router.push('/login')
       } else if (command === '2') {
-        window.location.href = 'https://github.com/guojinyuzhenshuai/heimatoutiao-guojinyu'
+        window.location.href =
+          'https://github.com/guojinyuzhenshuai/heimatoutiao-guojinyu'
       }
     }
   }

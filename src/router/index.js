@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/home/index.vue'
 import Login from '../views/login'
 import Home2 from '../views/home/home.vue'
+// import RouterBeforeEach from '../permission'
 
 Vue.use(VueRouter)
 

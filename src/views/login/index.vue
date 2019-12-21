@@ -56,15 +56,15 @@ export default {
         check: [
           {
             validator: function (rule, value, callback) {
-            //   console.log(value)
+              //   console.log(value)
 
               // rule 当前的规则 没什么用
               // value 指的就是我们要校检的字段的值
               if (value) {
-              // 认证校检通过
+                // 认证校检通过
                 callback() // 直接执行callback 认为通过
               } else {
-              // 认证校检不通过 要提示信息
+                // 认证校检不通过 要提示信息
                 callback(new Error('我又吐了'))
               }
             }
@@ -74,7 +74,6 @@ export default {
         //   { required: true, message: '我吐了' }
         // ]
       }
-
     }
   },
   methods: {
@@ -83,22 +82,26 @@ export default {
       // validate 是一个方法 => 方法中传入的一个函数 两个校验参数  是否校验成功/未校验成功的字段
       this.$refs.myForm.validate(isOK => {
         if (isOK) {
+          // console.log(this.loginForm)
+
           // console.log('校检成功')
           this.$axios({
             url: '/authorizations', // 请求地址
             method: 'post',
             data: this.loginForm
-          }).then(result => {
-            // console.log(result)
-            window.localStorage.setItem('user-token', result.data.data.token)// 前端缓存令牌
-            this.$router.push('/home')// 登陆成功 跳转到主页
-          }).catch(error => {
-            this.$message({
-              message: '您的验证码不正确',
-              type: 'warning'
-            })
-            console.log(error)
           })
+            .then(result => {
+              // console.log(result)
+              window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
+              this.$router.push('/home') // 登陆成功 跳转到主页
+            })
+            .catch(error => {
+              this.$message({
+                message: '您的验证码不正确',
+                type: 'warning'
+              })
+              console.log(error)
+            })
         } else {
           console.log('校检失败')
         }
