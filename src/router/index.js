@@ -4,6 +4,7 @@ import Home from '../views/home/index.vue'
 import Login from '../views/login'
 import Home2 from '../views/home/home.vue'
 import Commont from '../views/comment/index.vue'
+import Material from '../views/material/index.vue'
 // import RouterBeforeEach from '../permission'
 
 Vue.use(VueRouter)
@@ -26,6 +27,9 @@ const routes = [
         path: '/home/comment',
         component: Commont
         // component: () => import('../views/comment/index.vue')
+      }, {
+        path: '/home/material',
+        component: Material
       }
     ]
   },
