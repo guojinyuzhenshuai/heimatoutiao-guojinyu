@@ -15,12 +15,25 @@
         <template slot-scope="obj">
           <!-- {{obj.row.comment_status}} -->
           <el-button type="text">修改</el-button>
-          <el-button type="text" @click="openOrClose(obj.row)">{{obj.row.comment_status? '打开评论' : '关闭评论'}}</el-button>
+          <el-button
+            type="text"
+            @click="openOrClose(obj.row)"
+          >{{obj.row.comment_status? '打开评论' : '关闭评论'}}</el-button>
         </template>
 
         <!-- <slot :row="name" :column="column" :$index="index" :store="store">{{obj.row}}</slot> -->
       </el-table-column>
     </el-table>
+    <el-row type="flex" justify="center" align="middle" style="height:40px">
+      <el-pagination
+        :page-size="page.pageSize"
+        :total="page.total"
+        :current-page="page.currentPage"
+        @current-change="changePage"
+        background
+        layout="prev, pager, next"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -34,10 +47,22 @@ export default {
   data () {
     return {
       list: [],
-      statu: ''
+      // statu: ''
+      page: {
+        // 设置一个page对象 专门控制分页
+        total: 0, // 数据总条数
+        pageSize: 10, // 每页显示条目个数
+        currentPage: 1 // 当前页码 默认第一页
+      }
     }
   },
   methods: {
+    // 页面 改变事件
+    changePage (newPage) {
+      // 修改当前 页码
+      this.page.currentPage = newPage
+      this.getComment()
+    },
     openOrClose (row) {
       let mess = row.comment_status ? '关闭' : '打开'
       // console.log(this.$comfirm)
@@ -67,10 +92,13 @@ export default {
       // 身份信息 headers
       this.$axios({
         url: './articles',
-        params: { response_type: 'comment' }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         // console.log(result.data.results)
         this.list = result.data.results // 获取评论数据
+        this.page.total = result.data.total_count
+        // this.page.pageSize = result.data.page
+        // this.page.currentPage = result.data.per_page
       })
     },
     formatterBool (row, column, cellValue, index) {

@@ -6,7 +6,7 @@
       <img src="../assets/logo_admin.png" alt />
     </div>
     <el-menu
-      style="width:301px ; height:100vh"
+      style="width:301px ; min-height:100vh; height:100%; "
       background-color="#353b4e"
       text-color="#adafb5"
       active-text-color="#ffd04b"

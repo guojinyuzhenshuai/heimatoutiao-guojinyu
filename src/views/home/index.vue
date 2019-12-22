@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside>
-      <layout-aside style="width:100%">
+      <layout-aside style="width:100%; height:100%; overflow: hidden">
         <!-- 侧边栏 -->
       </layout-aside>
     </el-aside>
@@ -30,4 +30,5 @@ export default {
 </script>
 
 <style>
+
 </style>
