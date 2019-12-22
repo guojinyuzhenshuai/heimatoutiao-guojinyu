@@ -30,6 +30,24 @@
           </el-card>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="点击上传">
+        <el-upload
+        :show-file-list="false"
+        :http-request="uploadImg"
+          class="upload-demo"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+      </el-tab-pane>
     </el-tabs>
     <!-- <button @click=show></button> -->
     <el-row type="flex" justify="center" align="middle" style="height:40px">
@@ -85,11 +103,26 @@ export default {
         //   获取所有素材
         // method: 'get',
         url: '/user/images',
-        params: { collect: this.activeName === 'second', page: this.page.currentPage, per_page: this.page.pageSize }
+        params: {
+          collect: this.activeName === 'second',
+          page: this.page.currentPage,
+          per_page: this.page.pageSize
+        }
       }).then(result => {
         this.page.total = result.data.total_count
         this.list = result.data.results
         console.log(this.list.url[0])
+      })
+    },
+    uploadImg (params) {
+      let form = new FormData()
+      form.append('image', params.file)// 将文件添加到form中
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data: form// 上传 form
+      }).then((result) => {
+        alert(result)
       })
     }
   },
