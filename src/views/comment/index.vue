@@ -15,7 +15,7 @@
         <template slot-scope="obj">
           <!-- {{obj.row.comment_status}} -->
           <el-button type="text">修改</el-button>
-          <el-button type="text">{{obj.row.comment_status? '打开评论' : '关闭评论'}}</el-button>
+          <el-button type="text" @click="openOrClose(obj.row)">{{obj.row.comment_status? '打开评论' : '关闭评论'}}</el-button>
         </template>
 
         <!-- <slot :row="name" :column="column" :$index="index" :store="store">{{obj.row}}</slot> -->
@@ -38,6 +38,28 @@ export default {
     }
   },
   methods: {
+    openOrClose (row) {
+      let mess = row.comment_status ? '关闭' : '打开'
+      // console.log(this.$comfirm)
+      this.$confirm(`您是否确定要${mess}评论吗`).then(() => {
+        this.$axios({
+          method: 'put',
+          url: '/comments/status',
+          params: {
+            article_id: row.id
+          },
+          data: {
+            allow_comment: !row.comment_status
+          }
+        }).then(result => {
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.getComment()
+        })
+      })
+    },
     getComment () {
       // axios 默认是get类型
       // query 参数 / 路由参数 get参数 我们一般要给axios 有一个属性叫 params
@@ -57,7 +79,7 @@ export default {
       // cellValue 当前单元格
       // index 当前下标
       //   debugger
-      console.log(cellValue)
+      // console.log(cellValue)
       if (cellValue) {
         return '正常'
       } else {

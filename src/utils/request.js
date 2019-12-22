@@ -56,5 +56,7 @@ axios.interceptors.response.use(function (response) {
   }
 
   Message({ type: 'warning', message }) // 提示信息
+  // 想让错我进入到catch中而不进入then中
+  return Promise.reject(error)
 })
 export default axios
