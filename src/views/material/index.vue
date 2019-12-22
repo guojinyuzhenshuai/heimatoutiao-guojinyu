@@ -4,7 +4,7 @@
       <template slot="title">素材列表</template>
     </bread-crumb>
     <!-- 素材 -->
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" @tab-click='changeTab'>
       <el-tab-pane label="全部素材" name="first">
         <!-- 全部的图片 -->
         <div class="img-list">
@@ -23,6 +23,13 @@
       </el-tab-pane>
       <el-tab-pane label="收藏素材" name="second">
         <!-- 收藏的图片 -->
+        <div class="img-list">
+          <el-card class="img-card" v-for="item in list" :key="item.id">
+            <img :src="item.url" alt />
+            <el-row class="operate" type="flex" justify="space-around" align="middle">
+            </el-row>
+          </el-card>
+        </div>
       </el-tab-pane>
     </el-tabs>
     <!-- <button @click=show></button> -->
@@ -46,6 +53,9 @@ export default {
   },
 
   methods: {
+    changeTab () {
+      this.showImg()
+    },
     // show () {
     //   this.activeName = 'first'
     // }
@@ -54,7 +64,7 @@ export default {
         //   获取所有素材
         // method: 'get',
         url: '/user/images',
-        params: { collect: false }
+        params: { collect: this.activeName === 'second' }
       }).then(result => {
         this.list = result.data.results
         console.log(this.list.url[0])
