@@ -4,7 +4,7 @@
       <template slot="title">素材列表</template>
     </bread-crumb>
     <!-- 素材 -->
-    <el-tabs v-model="activeName" @tab-click='changeTab'>
+    <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部素材" name="first">
         <!-- 全部的图片 -->
         <div class="img-list">
@@ -26,13 +26,22 @@
         <div class="img-list">
           <el-card class="img-card" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
-            <el-row class="operate" type="flex" justify="space-around" align="middle">
-            </el-row>
+            <el-row class="operate" type="flex" justify="space-around" align="middle"></el-row>
           </el-card>
         </div>
       </el-tab-pane>
     </el-tabs>
     <!-- <button @click=show></button> -->
+    <el-row type="flex" justify="center" align="middle" style="height:40px">
+      <el-pagination
+        :page-size="page.pageSize"
+        :total="page.total"
+        :current-page="page.currentPage"
+        @current-change="changePage"
+        background
+        layout="prev, pager, next"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -45,7 +54,13 @@ export default {
   data () {
     return {
       activeName: 'first', // 默认选中全部
-      list: []
+      list: [],
+      page: {
+        // 设置一个page对象 专门控制分页
+        total: 0, // 数据总条数
+        pageSize: 12, // 每页显示条目个数
+        currentPage: 1 // 当前页码 默认第一页
+      }
     }
   },
   components: {
@@ -53,7 +68,13 @@ export default {
   },
 
   methods: {
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.showImg()
+    },
     changeTab () {
+      this.page.currentPage = 1
+
       this.showImg()
     },
     // show () {
@@ -64,8 +85,9 @@ export default {
         //   获取所有素材
         // method: 'get',
         url: '/user/images',
-        params: { collect: this.activeName === 'second' }
+        params: { collect: this.activeName === 'second', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
+        this.page.total = result.data.total_count
         this.list = result.data.results
         console.log(this.list.url[0])
       })
