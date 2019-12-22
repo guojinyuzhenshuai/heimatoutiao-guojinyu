@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
+import JSONBig from 'json-bigint' // 引入第三方的包
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
 // 请求拦截
@@ -17,6 +18,11 @@ axios.interceptors.request.use(function (config) {
 }, function () {
   // 执行请求失败
 })
+// 后台数据 到达 响应拦截之前走的一个函数
+axios.defaults.transformResponse = [function (data) {
+  let result1 = JSONBig.parse(data)
+  return result1
+}]
 // 响应拦截
 axios.interceptors.response.use(function (response) {
   return response.data ? response.data : {}// 解决当data不存在时 then中读取数据报错问题

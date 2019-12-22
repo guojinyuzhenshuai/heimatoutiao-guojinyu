@@ -46,7 +46,7 @@ export default {
           method: 'put',
           url: '/comments/status',
           params: {
-            article_id: row.id
+            article_id: row.id.toString()
           },
           data: {
             allow_comment: !row.comment_status
