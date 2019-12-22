@@ -9,7 +9,7 @@
       <el-header>
         <layout-header style="height:50px"></layout-header>
       </el-header>
-      <el-main style="background-color:yellow">
+      <el-main>
         <!-- 主要内容 -->
         <bread-crumb></bread-crumb>
         <router-view></router-view>
