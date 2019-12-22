@@ -4,7 +4,7 @@
     <bread-crumb slot="header">
       <template slot="title">评论列表</template>
     </bread-crumb>
-    <el-table :data="list">
+    <el-table :data="list" v-loading="loading">
       <!-- 表头 -->
       <el-table-column prop="title" label="标题" width="450"></el-table-column>
       <!-- 格式化属性 -->
@@ -53,7 +53,8 @@ export default {
         total: 0, // 数据总条数
         pageSize: 10, // 每页显示条目个数
         currentPage: 1 // 当前页码 默认第一页
-      }
+      },
+      loading: false // 加载状态
     }
   },
   methods: {
@@ -97,6 +98,7 @@ export default {
         // console.log(result.data.results)
         this.list = result.data.results // 获取评论数据
         this.page.total = result.data.total_count
+        this.loading = false
         // this.page.pageSize = result.data.page
         // this.page.currentPage = result.data.per_page
       })
@@ -118,6 +120,8 @@ export default {
   },
 
   created () {
+    this.loading = true
+
     this.getComment()
   }
 }
