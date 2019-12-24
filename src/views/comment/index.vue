@@ -65,8 +65,8 @@ export default {
       this.getComment()
     },
     openOrClose (row) {
+      console.log(row)
       let mess = row.comment_status ? '关闭' : '打开'
-      // console.log(this.$comfirm)
       this.$confirm(`您是否确定要${mess}评论吗`).then(() => {
         this.$axios({
           method: 'put',

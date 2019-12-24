@@ -5,23 +5,24 @@ import { Message } from 'element-ui'
 import JSONBig from 'json-bigint' // 引入第三方的包
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
-// 请求拦截
+// 请求拦截 拦截请求头 request 传入config , config 是axios 的所有配置
 axios.interceptors.request.use(function (config) {
   // 这个函数有两个参数
   // console.log(axios.interceptors)
   // 执行请求ok
-  // config 是axios 的所有配置
+
   let token = window.localStorage.getItem('user-token') // 获取token
   config.headers.Authorization = `Bearer ${token}` // 统一注入token
+  // 将 token 当做一个属性放人 config中 当config再次返回时  就会携带token 从而使请求成功
 
   return config// 如果返回config 它就会作为新的请求选项去进行请求
-}, function () {
-  // 执行请求失败
+}, function (error) {
+  // 对请求失败做处理
+  return Promise.reject(error)
 })
 // 后台数据 到达 响应拦截之前走的一个函数
 axios.defaults.transformResponse = [function (data) {
-  let result1 = JSONBig.parse(data)
-  return result1
+  return data ? JSONBig.parse(data) : {}
 }]
 // 响应拦截
 axios.interceptors.response.use(function (response) {
@@ -29,7 +30,6 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   console.log(error)
   //   console.log(response)
-
   // 失败进入第二个回调函数, 所有的失败都会进到第二个回调函数
   // 失败时执行 状态码 不是200 或者201/204
   // 获取状态码 => 根据状态码 进行相应的提示或者操作

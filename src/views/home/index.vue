@@ -11,7 +11,7 @@
       </el-header>
       <el-main>
         <!-- 主要内容 -->
-        <bread-crumb></bread-crumb>
+        <!-- <bread-crumb></bread-crumb> -->
         <router-view></router-view>
       </el-main>
     </el-container>

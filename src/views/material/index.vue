@@ -11,8 +11,9 @@
           <el-card class="img-card" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
             <el-row class="operate" type="flex" justify="space-around" align="middle">
-              <i class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <!-- 根据图片收藏状态来决定图标的颜色 -->
+              <i @click="collectOrCancel(item)" :style="{color: item. is_collected?'red':''}" class="el-icon-star-on"></i>
+              <i @click="delMaterial(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
         </div>
@@ -36,13 +37,6 @@
         :http-request="uploadImg"
           class="upload-demo"
           action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
         >
           <el-button size="small" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -86,6 +80,27 @@ export default {
   },
 
   methods: {
+    delMaterial (id) {
+      this.$confirm('你确定要删除么').then(() => {
+        this.$axios({
+          url: `/user/images/${id}`,
+          method: 'delete'
+        }).then(() => {
+          this.showImg()
+        })
+      })
+    },
+    collectOrCancel (row) {
+      this.$axios({
+        url: `/user/images/${row.id}`,
+        method: 'put',
+        data: { collect: !row.is_collected
+        }
+      }).then(() => {
+        // console.log(result)
+        this.showImg()
+      })
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.showImg()
@@ -111,7 +126,7 @@ export default {
       }).then(result => {
         this.page.total = result.data.total_count
         this.list = result.data.results
-        console.log(this.list.url[0])
+        // console.log(this.list.url[0])
       })
     },
     uploadImg (params) {
@@ -122,7 +137,7 @@ export default {
         url: '/user/images',
         data: form// 上传 form
       }).then((result) => {
-        alert(result)
+        // alert(result)
       })
     }
   },
@@ -152,6 +167,9 @@ export default {
       width: 100%;
       height: 30px;
       margin-left: -20px;
+      i{
+        cursor: pointer;
+      }
     }
   }
 }
