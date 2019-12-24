@@ -28,10 +28,12 @@ const routes = [
         path: '/home/comment',
         component: Commont
         // component: () => import('../views/comment/index.vue')
-      }, {
+      },
+      {
         path: '/home/material',
         component: Material
-      }, {
+      },
+      {
         path: '/home/articles',
         component: Articles
       }
