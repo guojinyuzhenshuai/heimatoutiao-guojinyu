@@ -45,7 +45,6 @@
           end-placeholder="结束时间"
           range-separator="-"
         ></el-date-picker>
-        {{ formData.dateRange }}
       </el-col>
     </el-row>
     <!-- 主体 -->
@@ -77,7 +76,7 @@
           <span>
             <i class="el-icon-edit"></i>修改
           </span>
-          <span>
+          <span @click="removeArticles">
             <i class="el-icon-delete"></i> 删除
           </span>
         </el-row>
@@ -151,6 +150,20 @@ export default {
     }
   },
   methods: {
+    removeArticles (id) {
+      this.$confirm('您是否要删除这个文章?').then(() => {
+        this.$axios({
+          method: 'delete',
+          url: `/articles/${id.toString()}`
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除文章成功!'
+          })
+          this.getConditionArticle()
+        })
+      })
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getConditionArticle()
