@@ -7,7 +7,7 @@ import Commont from '../views/comment/index.vue'
 import Material from '../views/material/index.vue'
 import Articles from '../views/articles/index.vue'
 // import RouterBeforeEach from '../permission'
-
+import PublishArticles from '../views/publisharticles/index.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,6 +36,10 @@ const routes = [
       {
         path: '/home/articles',
         component: Articles
+      },
+      {
+        path: '/home/publish',
+        component: PublishArticles
       }
     ]
   },
