@@ -50,7 +50,7 @@
     </el-row>
     <!-- 主体 -->
     <el-row class="total">
-      <span>共找到1000条符合条件的内容</span>
+      <span>共找到{{page.total}}条符合条件的内容</span>
     </el-row>
     <!-- 循环的模板 -->
     <el-row
@@ -83,6 +83,17 @@
         </el-row>
       </el-col>
     </el-row>
+    <!-- 分页组件 -->
+    <el-row type="flex" justify="center" align="middle">
+      <el-pagination
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        background
+        layout="prev, pager, next"
+        :total="page.total"
+        @current-change="changePage"
+      ></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -94,6 +105,11 @@ export default {
   },
   data () {
     return {
+      page: {
+        currentPage: 1, // 当前页数
+        total: 100, // 总页数
+        pageSize: 10 // 每页显示数目
+      },
       formData: {
         status: 5,
         dateRange: [],
@@ -135,10 +151,22 @@ export default {
     }
   },
   methods: {
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.getConditionArticle()
+    },
+    // 改变条件
     changeCondition () {
       // 这里 我们来组装我们的条件
       //   alert(this.formData.status)
+      this.page.currentPage = 1// 强制将当前的页码回到第一页
+      this.getConditionArticle()
+      // 最新状态
+    },
+    getConditionArticle () {
       let params = {
+        page: this.page.currentPage, // 切换状态 默认
+        per_page: this.page.pageSize,
         status: this.formData.status === 5 ? null : this.formData.status, // 不传为全部 5代表全部
         channel_id: this.formData.channel_id, // 频道
         begin_pubdate: this.formData.dateRange.length
@@ -146,8 +174,9 @@ export default {
           : null, // 起始时间
         end_pubdate:
           this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 结束时间
+
       }
-      this.getArticleAll(params) // 调用获取文章数据
+      this.getArticleAll(params)
     },
     getArticleAll (params) {
       this.$axios({
@@ -156,7 +185,9 @@ export default {
       }).then(result => {
         // debugger
         this.list = result.data.results
-        console.log(result.data.results)
+        this.page.total = result.data.total_count
+
+        console.log(result)
       })
     },
     getArticles () {
