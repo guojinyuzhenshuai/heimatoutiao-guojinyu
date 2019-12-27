@@ -208,7 +208,7 @@ export default {
         this.list = result.data.results
         this.page.total = result.data.total_count
 
-        console.log(result)
+        // console.log(result)
       })
     },
     getArticles () {

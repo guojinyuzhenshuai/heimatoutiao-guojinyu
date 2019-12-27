@@ -81,19 +81,42 @@ export default {
     }
   },
   methods: {
+    getArticlesById (articleId) {
+      this.$axios({
+        url: `articles/${articleId}`
+      }).then((result) => {
+        this.formData = result.data
+        console.log(this.formData)
+      })
+    },
     publishArticles (draft) {
       this.$refs.publishForm.validate(isOk => {
         if (isOk) {
-          this.$axios({
-            url: '/articles',
-            method: 'post',
-            params: {
-              draft
-            },
-            data: this.formData
-          }).then(() => {
-            this.$router.push('/home/articles')
-          })
+          let { articleId } = this.$route.params // 回去动态路由参数
+
+          if (articleId) {
+            // 如果存在 就修改文章
+            this.$axios({
+              url: `/articles/${articleId}`,
+              method: 'put',
+              params: draft,
+              data: this.formData
+            }).then(() => {
+              this.$router.push('/home/articles')
+            })
+          } else {
+            // 发布文章
+            this.$axios({
+              url: '/articles',
+              method: 'post',
+              params: {
+                draft
+              },
+              data: this.formData
+            }).then(() => {
+              this.$router.push('/home/articles')
+            })
+          }
         }
       })
     },
@@ -108,6 +131,10 @@ export default {
   },
   created () {
     this.getArticles()
+    // 判断有无Id 有Id就是修改 没有Id就是发布
+    let { articleId } = this.$route.params // 回去动态路由参数
+
+    articleId && this.getArticlesById(articleId)
   }
 }
 </script>
