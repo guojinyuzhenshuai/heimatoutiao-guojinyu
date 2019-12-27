@@ -1,15 +1,38 @@
 <template>
   <div class="cover-image">
     <!-- 根据封面的images长度 组件 进行渲染 一个或者三个或者不渲染 -->
-    <div v-for="(item,index) in list" :key="index" class="cover-item">
-        <img src="../../assets/pic_bg.png" alt="">
+    <div @click="showDialog" v-for="(item,index) in list" :key="index" class="cover-item">
+        <img :src="item ? item : defaultImg" alt="">
     </div>
+    <!-- 生成的元素在body上 用visible 控制显示隐藏 -->
+    <el-dialog :visible="show" @close="closeDialog">
+      <!-- 选择素材组件 -->
+      <select-image></select-image>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import selectImage from './select-image.vue'
 export default {
-  props: ['list'] // 接收属性
+  components: {
+    'select-image': selectImage
+  },
+  props: ['list'], // 接收属性
+  data () {
+    return {
+      defaultImg: require('../../assets/pic_bg.png'), // 将图片变成变量
+      show: false // 控制 弹层打开关闭的变量
+    }
+  },
+  methods: {
+    showDialog () {
+      this.show = true // 打开弹层
+    },
+    closeDialog () {
+      this.show = false // 关闭弹层
+    }
+  }
 }
 </script>
 
