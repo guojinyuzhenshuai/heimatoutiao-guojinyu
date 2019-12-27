@@ -22,7 +22,7 @@
         ></quill-editor>
       </el-form-item>
       <el-form-item prop="type" label="封面" class="publishstyle" style="margin-top:100px">
-        <el-radio-group  v-model="formData.cover.type">
+        <el-radio-group @change="changeType" v-model="formData.cover.type">
           <!-- @change="changeType" -->
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
@@ -102,10 +102,24 @@ export default {
           }
         }
       }
-    },
+    }
     // 监控嵌套对象的中值
-    'formData.cover.type': function () {
-    // this指向 组件实例
+    // 'formData.cover.type': function () {
+    // // this指向 组件实例
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     // 无图模式
+    //     this.formData.cover.images = []
+    //   } else if (this.formData.cover.type === 1) {
+    //     // 单图模式
+    //     this.formData.cover.images = ['']
+    //   } else if (this.formData.cover.type === 3) {
+    //     // 三图模式
+    //     this.formData.cover.images = ['', '', '']
+    //   }
+    // }
+  },
+  methods: {
+    changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         // 无图模式
         this.formData.cover.images = []
@@ -116,12 +130,7 @@ export default {
         // 三图模式
         this.formData.cover.images = ['', '', '']
       }
-    }
-  },
-  methods: {
-    // changeType () {
-    //   alert(this.formData.cover.type)
-    // },
+    },
     getArticlesById (articleId) {
       this.$axios({
         url: `articles/${articleId}`
