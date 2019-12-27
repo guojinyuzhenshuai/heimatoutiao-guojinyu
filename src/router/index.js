@@ -40,6 +40,10 @@ const routes = [
       {
         path: '/home/publish',
         component: PublishArticles
+      },
+      {
+        path: '/home/publish/:articleId', // 此规则只限定于修改界面
+        component: PublishArticles
       }
     ]
   },

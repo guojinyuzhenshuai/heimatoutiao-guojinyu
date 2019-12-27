@@ -73,10 +73,10 @@
       <!-- 右侧 -->
       <el-col :span="6">
         <el-row class="right" type="flex" justify="end">
-          <span>
+          <span @click="toPublish(item.id)" class="node">
             <i class="el-icon-edit"></i>修改
           </span>
-          <span @click="removeArticles">
+          <span @click="removeArticles(item.id)" class="node">
             <i class="el-icon-delete"></i> 删除
           </span>
         </el-row>
@@ -150,6 +150,14 @@ export default {
     }
   },
   methods: {
+    toPublish (id) {
+      this.$axios({
+        url: '/comments/status',
+        method: 'put',
+        params: { id }
+      })
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
     removeArticles (id) {
       this.$confirm('您是否要删除这个文章?').then(() => {
         this.$axios({
@@ -248,5 +256,8 @@ export default {
       font-size: 12px;
     }
   }
+}
+.node{
+  cursor: pointer
 }
 </style>
