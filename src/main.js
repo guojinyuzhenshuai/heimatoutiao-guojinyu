@@ -6,6 +6,12 @@ import ElementUI from 'element-ui'// 引入包
 import 'element-ui/lib/theme-chalk/index.css'// 引入Element-ui 样式
 import './styles/index.less'// 引入初始化样式
 import axios from './utils/request'
+import VueQuillEditor from 'vue-quill-editor'
+// 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor)
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
