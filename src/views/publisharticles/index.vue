@@ -29,7 +29,8 @@
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
-        {{formData.cover}}
+        <!-- 放置一个封面组件   这里用到了一个 父组件 给子组件传值-->
+        <cover-image :list=formData.cover.images></cover-image>
       </el-form-item>
       <el-form-item prop="channel_id" label="频道" class="publishstyle">
         <el-select v-model="formData.channel_id">
@@ -51,9 +52,12 @@
 
 <script>
 import BreadCrumb from '../../common/bread-crumb'
+import CoverImage from '../publish/cover-image.vue'
+
 export default {
   components: {
-    'bread-crumb': BreadCrumb
+    'bread-crumb': BreadCrumb,
+    'cover-image': CoverImage
   },
   data () {
     return {
@@ -176,7 +180,7 @@ export default {
 }
 </script>
 
-<style lang="less" spoced>
+<style lang="less" scoped>
 .publishstyle {
   // height: 130px;
   margin-left: 100px;
