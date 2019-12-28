@@ -23,7 +23,7 @@ const routes = [
     component: Home,
     children: [
       {
-        path: 'list',
+        path: '/list',
         component: Home2
       }, {
         // 这是二级路由表

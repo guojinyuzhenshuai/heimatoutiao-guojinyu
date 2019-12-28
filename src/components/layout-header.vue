@@ -4,7 +4,7 @@
     <el-row type="flex" justify="space-between">
       <!-- 左侧 -->
       <el-col :span="12">
-        <span class="el-icon-s-fold"></span>
+        <span @click="collapseOrOpen" :class="{'el-icon-s-unfold':collapse,'el-icon-s-fold' :!collapse}"></span>
         江苏传智播客教育科技股份有限公司
       </el-col>
       <!-- 右侧 -->
@@ -35,7 +35,8 @@ export default {
   data () {
     return {
       userInfo: {},
-      defaultIng: require('../assets/avatar.jpg') // 用户信息
+      defaultIng: require('../assets/avatar.jpg'), // 用户信息
+      collapse: false // 是否折叠
     }
   },
   created () {
@@ -45,6 +46,10 @@ export default {
     })
   },
   methods: {
+    collapseOrOpen () {
+      this.collapse = !this.collapse
+      eventBus.$emit('changeCollapse')
+    },
     getUserInfo () {
       this.$axios({
         url: '/user/profile'
