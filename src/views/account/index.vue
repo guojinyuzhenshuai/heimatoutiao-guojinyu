@@ -6,21 +6,21 @@
     <el-upload class="head-upload" action :show-file-list="false">
       <img :src="formData.photo ? formData.photo : defaultImg" alt />
     </el-upload>
-    <el-form style="margin-left:100px" label-width="100px">
-      <el-form-item label="用户名">
+    <el-form ref="myForm" :model="formData" :rules="rules" style="margin-left:100px" label-width="100px">
+      <el-form-item label="用户名" prop="name">
         <el-input v-model="formData.name" style="width:30%"></el-input>
       </el-form-item>
-      <el-form-item label="简介">
+      <el-form-item label="简介" prop="intro">
         <el-input v-model="formData.intro" style="width:30%"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="email">
         <el-input v-model="formData.email" style="width:30%"></el-input>
       </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="formData.mobile" style="width:30%" disabled="ture"></el-input>
+      <el-form-item label="手机号" prop="mobile">
+        <el-input v-model="formData.mobile" style="width:30%" ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">保存信息</el-button>
+        <el-button @click="saveUserInfo" type="primary">保存信息</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -43,10 +43,37 @@ export default {
         mobile: '',
         id: ''
       },
+      rules: {
+        name: [{ require: true, message: '用户名不能为空' },
+          { max: 8, min: 2, message: '用户名长度为2-8' }],
+        email: [{ require: true, message: '邮箱不能为空' },
+          {
+            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            message: '邮箱格式不对'
+          }],
+        mobile: [{ require: true, message: '手机号不能为空' }]
+      },
       defaultImg: require('../../assets/404.png')
     }
   },
   methods: {
+    saveUserInfo () {
+      this.$refs.myForm.validate((isOK) => {
+        // 调用保存方法
+        if (isOK) {
+          this.$axios({
+            url: '/user/profile',
+            method: 'patch',
+            data: this.formData
+          }).then((result) => {
+            this.$message({
+              type: 'success',
+              message: '验证成功'
+            })
+          })
+        }
+      })
+    },
     getUserInfo () {
       this.$axios({
         url: `/user/profile`
