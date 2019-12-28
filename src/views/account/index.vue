@@ -1,10 +1,10 @@
 <template>
-  <el-card>
+  <el-card v-loadind="loading">
     <bread-crumb slot="header">
       <template slot="title">账户管理</template>
     </bread-crumb>
-    <el-upload class="head-upload" action :show-file-list="false">
-      <img :src="formData.photo ? formData.photo : defaultImg" alt />
+    <el-upload class="head-upload" action :show-file-list="false" :http-request="uploadImg">
+      <img  :src="formData.photo ? formData.photo : defaultImg" alt />
     </el-upload>
     <el-form ref="myForm" :model="formData" :rules="rules" style="margin-left:100px" label-width="100px">
       <el-form-item label="用户名" prop="name">
@@ -34,6 +34,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       formData: {
         // 定义一个表单来接收数据
         name: '',
@@ -57,6 +58,19 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      this.loading = true
+      let data = new FormData() // 实例化对象
+      data.append('photo', params.file) // 参数
+      this.$axios({
+        url: '/user/photo',
+        method: 'patch',
+        data
+      }).then((result) => {
+        this.formData.photo = result.data.photo
+        this.loading = false
+      })
+    },
     saveUserInfo () {
       this.$refs.myForm.validate((isOK) => {
         // 调用保存方法
