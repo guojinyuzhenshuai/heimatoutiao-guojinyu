@@ -6,6 +6,7 @@ import Home2 from '../views/home/home.vue'
 import Commont from '../views/comment/index.vue'
 import Material from '../views/material/index.vue'
 import Articles from '../views/articles/index.vue'
+import Account from '../views/account/index.vue'
 // import RouterBeforeEach from '../permission'
 import PublishArticles from '../views/publisharticles/index.vue'
 Vue.use(VueRouter)
@@ -15,6 +16,7 @@ const routes = [
     path: '/',
     redirect: '/home'
   },
+
   { // 主页
     path: '/home',
     name: 'home',
@@ -44,6 +46,10 @@ const routes = [
       {
         path: '/home/publish/:articleId', // 此规则只限定于修改界面
         component: PublishArticles
+      },
+      {
+        path: '/home/account',
+        component: Account
       }
     ]
   },

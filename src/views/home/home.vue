@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 二级路由容器 -->
-    金雨又帅了
+    <img src="../../assets/home.jpeg" alt="">
   </div>
 </template>
 
