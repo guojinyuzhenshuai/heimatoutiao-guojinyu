@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus.js'
 import BreadCrumb from '../../common/bread-crumb'
 export default {
   components: {
@@ -84,6 +85,9 @@ export default {
               type: 'success',
               message: '验证成功'
             })
+            // 告诉头部组件 我更新了 你也要更新
+            // this.$emit()
+            eventBus.$emit('updateUserInfoSuccess') // 触发一个自定义事件
           })
         }
       })

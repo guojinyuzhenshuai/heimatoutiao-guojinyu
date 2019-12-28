@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import eventBus from '../utils/eventBus.js'
 export default {
   data () {
     return {
@@ -38,14 +39,20 @@ export default {
     }
   },
   created () {
-    this.$axios({
-      url: '/user/profile'
-    }).then(res => {
-      this.userInfo = res.data // 获取用户个人信息
-      // console.log(res.data.data)
+    this.getUserInfo()
+    eventBus.$on('updateUserInfoSuccess', () => {
+      this.getUserInfo()
     })
   },
   methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      }).then(res => {
+        this.userInfo = res.data // 获取用户个人信息
+      // console.log(res.data.data)
+      })
+    },
     handleCommand (command) {
       this.$message(command)
       if (command === '3') {
@@ -55,6 +62,8 @@ export default {
       } else if (command === '2') {
         window.location.href =
           'https://github.com/guojinyuzhenshuai/heimatoutiao-guojinyu'
+      } else if (command === '1') {
+        this.$router.push('/home/account')
       }
     }
   }
