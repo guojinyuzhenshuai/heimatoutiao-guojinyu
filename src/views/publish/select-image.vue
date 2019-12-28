@@ -2,7 +2,7 @@
   <el-tabs v-model="activeName">
     <el-tab-pane label="素材库" name="material" class="imgmaterial">
       <div v-for="item in list" :key="item.id" class="imgBox">
-        <img :src="item.url" alt />
+        <img @click="clickImg(item.url)" :src="item.url" alt />
         <!-- {{item.url}} -->
       </div>
       <!-- 放置分页组件 -->
@@ -33,10 +33,16 @@ export default {
     }
   },
   methods: {
+    // 点击图片触发
+    clickImg (url) {
+      // 需要将url地址传出去 $emit 自定义事件 => 携带参数
+      this.$emit('selectOneImg', url) // 自定义事件名这里不再强制小写
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getAllImage()
     },
+
     getAllImage () {
       this.$axios({
         url: '/user/images',

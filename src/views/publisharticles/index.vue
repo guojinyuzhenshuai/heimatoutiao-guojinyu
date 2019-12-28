@@ -30,7 +30,7 @@
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
         <!-- 放置一个封面组件   这里用到了一个 父组件 给子组件传值-->
-        <cover-image :list=formData.cover.images></cover-image>
+        <cover-image @clickOneImg="receiveImg" :list=formData.cover.images></cover-image>
       </el-form-item>
       <el-form-item prop="channel_id" label="频道" class="publishstyle">
         <el-select v-model="formData.channel_id">
@@ -119,6 +119,24 @@ export default {
     // }
   },
   methods: {
+    receiveImg (img, index) {
+      // debugger
+      // 接收到数据之后 修改image数组 => 但是image 是个数组 ['','','']
+      // 有地址 有索引 就可以修改images了
+      // this.formData.cover.images[index] = img // 直接修改数据 这种方式 需要再次点击关闭才可以显示 所以这种方式 是不可以的
+      // Vue 有响应式原理 响应式数据=> 数据发生变化时 (必须能被Vue监控到) => 视图变化
+      // 我们可以给images 重新赋值一个新数组
+      // 我们的数组 => 新数组 => 就会触发响应式视图更新 或者使用这些方法 push / pop / shift / unshift / slice
+      // this.formData.cover.images = this.formData.cover.images.map(function (item, i) {
+      //   if (i === index) {
+      //     return img
+      //   } else {
+      //     return item
+      //   }
+      // })
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
+      // 还有最后一步 点击时触发关闭
+    },
     changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         // 无图模式

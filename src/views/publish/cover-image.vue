@@ -1,13 +1,14 @@
 <template>
   <div class="cover-image">
     <!-- 根据封面的images长度 组件 进行渲染 一个或者三个或者不渲染 -->
-    <div @click="showDialog" v-for="(item,index) in list" :key="index" class="cover-item">
+    <div @click="showDialog(index)" v-for="(item,index) in list" :key="index" class="cover-item">
         <img :src="item ? item : defaultImg" alt="">
     </div>
     <!-- 生成的元素在body上 用visible 控制显示隐藏 -->
     <el-dialog :visible="show" @close="closeDialog">
       <!-- 选择素材组件 -->
-      <select-image></select-image>
+      <!-- 建听谁就再谁的标签上写方法 -->
+      <select-image @selectOneImg = receiveImg></select-image>
     </el-dialog>
   </div>
 </template>
@@ -22,11 +23,21 @@ export default {
   data () {
     return {
       defaultImg: require('../../assets/pic_bg.png'), // 将图片变成变量
-      show: false // 控制 弹层打开关闭的变量
+      show: false, // 控制 弹层打开关闭的变量
+      selectIndex: -1 // 默认下标-1
     }
   },
   methods: {
-    showDialog () {
+    // 接收方法
+    receiveImg (img) {
+      // props 是只读的 不能修改
+      // 接收数据之后 发现 list 为 props 数据 要想修改 => 再次传递
+      this.$emit('clickOneImg', img, this.selectIndex) // 自定义事件名这里不再强制小写
+      this.closeDialog()
+      // 直接调用方法就可以关闭了
+    },
+    showDialog (index) {
+      this.selectIndex = index // 记住点击的下标
       this.show = true // 打开弹层
     },
     closeDialog () {
